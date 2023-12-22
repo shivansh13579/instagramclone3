@@ -4,7 +4,7 @@ const plm = require("passport-local-mongoose");
 mongoose.connect("mongodb://127.0.0.1:27017/cloneinstagram");
 
 // Define the user schema
-const userSchema = new mongoose.Schema({
+const userModel = new mongoose.Schema({
    username: String,
    name: String,
    email: String,
@@ -15,9 +15,9 @@ const userSchema = new mongoose.Schema({
    }
 });
 
-userSchema.plugin(plm);
+userModel.plugin(plm);
 // Create the User model
-module.exports  = mongoose.model('user', userSchema);
+module.exports  = mongoose.model('user', userModel);
 
 // Export the User model
 
