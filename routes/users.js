@@ -8,6 +8,7 @@ const userModel = new mongoose.Schema({
    username: String,
    name: String,
    email: String,
+   bio: String,
    profileImage: String,
    posts: {
     type: mongoose.Schema.Types.ObjectId,

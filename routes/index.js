@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const userModel = require("./users.js");
+const userModel = require("./users");
 const localStrategy = require("passport-local");
 const passport = require('passport');
 passport.use(new localStrategy(userModel.authenticate()));
@@ -31,6 +31,23 @@ router.get('/edit', isLoggedIn,function(req, res) {
 
 router.get('/upload',isLoggedIn, function(req, res) {
   res.render('upload', {footer: true});
+});
+
+router.post('/upload',upload.single("image"),isLoggedIn,async function(req, res) {
+   const user = await userModel.findOneAndUpdate(
+    {username: req.session.passport.post},
+    {
+     username: req.body.username,
+     name: req.body.name,
+     bio: req.body.bio
+    },
+    {new: true}
+    )
+    if(req.file){
+      user.profileImage = req.file.filename;
+    }
+   await user.save();
+   res.redirect("/profile");
 });
 
 router.post("/register",function(req,res,next){
